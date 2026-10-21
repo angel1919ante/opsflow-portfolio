@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="OpsFlow CRM functional workflow prototype with sample data." />
+    <title>OpsFlow CRM demo</title>
+    <link rel="stylesheet" href="demo.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="../index.html" aria-label="OpsFlow portfolio">
+          <span class="brand-mark" aria-hidden="true">OF</span>
+          <span>OpsFlow</span>
+        </a>
+        <nav class="nav-list">
+          <button class="nav-item is-active" data-view="leads">Leads <span id="lead-count">4</span></button>
+          <button class="nav-item" data-view="deals">Deals <span id="deal-count">2</span></button>
+          <button class="nav-item" data-view="tasks">Tasks <span id="task-count">3</span></button>
+          <button class="nav-item" data-view="inventory">Inventory <span>Demo</span></button>
+        </nav>
+        <div class="sidebar-note">
+          <strong>Sample workspace</strong>
+          <span>No customer data</span>
+        </div>
+      </aside>
+
+      <main id="workspace" class="workspace" tabindex="-1">
+        <header class="topbar">
+          <div>
+            <p class="kicker">Workspace / <span id="view-label">Leads</span></p>
+            <h1 id="view-title">Move every inquiry forward.</h1>
+          </div>
+          <div class="topbar-actions">
+            <button id="reset-demo" class="button button-secondary">Reset demo</button>
+            <button id="primary-action" class="button button-primary">Add lead</button>
+          </div>
+        </header>
+
+        <section id="leads-view" class="view is-active" aria-labelledby="view-title">
+          <div class="summary-strip" aria-label="Pipeline summary">
+            <div><span>New</span><strong id="metric-new">2</strong></div>
+            <div><span>Qualified</span><strong id="metric-qualified">1</strong></div>
+            <div><span>Converted</span><strong id="metric-converted">1</strong></div>
+            <div><span>Next action due</span><strong id="metric-due">Today</strong></div>
+          </div>
+          <div class="panel pipeline-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Lead pipeline</h2>
+                <p>Open a card, complete qualification, then convert it to a deal.</p>
+              </div>
+              <label class="search-field">
+                <span>Search leads</span>
+                <input id="lead-search" type="search" placeholder="Company or contact" autocomplete="off" />
+              </label>
+            </div>
+            <div id="pipeline" class="pipeline" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="deals-view" class="view" aria-labelledby="view-title">
+          <div class="panel">
+            <div class="panel-heading">
+              <div><h2>Active deals</h2><p>Converted opportunities with a clear next action.</p></div>
+            </div>
+            <div id="deal-list" class="data-list" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="tasks-view" class="view" aria-labelledby="view-title">
+          <div class="panel">
+            <div class="panel-heading">
+              <div><h2>Follow-up tasks</h2><p>Every task stays connected to the customer context.</p></div>
+              <button id="add-task" class="button button-primary">Add task</button>
+            </div>
+            <div id="task-list" class="task-list" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="inventory-view" class="view" aria-labelledby="view-title">
+          <div class="summary-strip inventory-summary" aria-label="Inventory summary">
+            <div><span>Available units</span><strong>428</strong></div>
+            <div><span>Reserved</span><strong>63</strong></div>
+            <div><span>Attention</span><strong>7</strong></div>
+            <div><span>Last sync</span><strong>09:42</strong></div>
+          </div>
+          <div class="inventory-layout">
+            <div class="panel inventory-panel">
+              <div class="panel-heading"><div><h2>Inventory control</h2><p>Sample operational data for portfolio demonstration.</p></div></div>
+              <div class="inventory-table" role="table" aria-label="Sample inventory">
+                <div class="inventory-row inventory-header" role="row"><span>Location</span><span>Category</span><span>Available</span><span>Status</span></div>
+                <div class="inventory-row" role="row"><strong>North Harbor</strong><span>Components</span><span>186</span><span class="status status-good">Healthy</span></div>
+                <div class="inventory-row" role="row"><strong>Lakeview</strong><span>Finished goods</span><span>74</span><span class="status status-watch">Review</span></div>
+                <div class="inventory-row" role="row"><strong>West Ridge</strong><span>Components</span><span>168</span><span class="status status-good">Healthy</span></div>
+              </div>
+            </div>
+            <aside class="panel stock-note">
+              <span class="micro-label">Operational rule</span>
+              <h2>Show the exception first.</h2>
+              <p>Managers see the location that needs attention without scanning every row.</p>
+              <div class="exception-box"><strong>Lakeview</strong><span>7 units need reconciliation</span></div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="lead-dialog" class="dialog">
+      <form id="lead-form" method="dialog">
+        <div class="dialog-heading">
+          <div><span class="micro-label">New inquiry</span><h2>Add a lead</h2></div>
+          <button class="icon-button" type="button" data-close aria-label="Close dialog">Close</button>
+        </div>
+        <label>Company<input name="company" required placeholder="Juniper Field Services" /></label>
+        <label>Contact<input name="contact" required placeholder="Avery Morgan" /></label>
+        <label>Need<textarea name="need" required placeholder="Replace a spreadsheet-based dispatch workflow"></textarea></label>
+        <div class="dialog-actions"><button type="button" class="button button-secondary" data-close>Cancel</button><button class="button button-primary" value="submit">Save lead</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="detail-dialog" class="dialog detail-dialog">
+      <form id="qualification-form" method="dialog">
+        <div class="dialog-heading">
+          <div><span class="micro-label">Qualification</span><h2 id="detail-company">Lead</h2></div>
+          <button class="icon-button" type="button" data-close aria-label="Close dialog">Close</button>
+        </div>
+        <p id="detail-need" class="detail-need"></p>
+        <div class="checklist">
+          <label><input name="decisionMaker" type="checkbox" /> Decision maker identified</label>
+          <label><input name="workflow" type="checkbox" /> Current workflow documented</label>
+          <label><input name="nextStep" type="checkbox" /> Next step agreed</label>
+        </div>
+        <label>Priority<select name="priority"><option>Normal</option><option>High</option><option>Low</option></select></label>
+        <p id="qualification-error" class="form-error" role="alert"></p>
+        <div class="dialog-actions"><button type="button" class="button button-secondary" data-close>Cancel</button><button id="convert-lead" class="button button-primary" value="submit">Convert to deal</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="task-dialog" class="dialog">
+      <form id="task-form" method="dialog">
+        <div class="dialog-heading"><div><span class="micro-label">Follow-up</span><h2>Create a task</h2></div><button class="icon-button" type="button" data-close>Close</button></div>
+        <label>Task<input name="title" required placeholder="Review current workflow" /></label>
+        <label>Owner<input name="owner" required value="Alex Morgan" /></label>
+        <label>Due date<input name="due" type="date" required /></label>
+        <div class="dialog-actions"><button type="button" class="button button-secondary" data-close>Cancel</button><button class="button button-primary" value="submit">Create task</button></div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="demo.js"></script>
+  </body>
+</html>
