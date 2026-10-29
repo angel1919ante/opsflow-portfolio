@@ -19,3 +19,7 @@ These images are prepared for public freelance profiles.
 - `erp-buyers-en.png`
 - `erp-team-en.png`
 - `erp-market-en.png`
+- `leadget-news-review-en.png`
+- `leadget-articles-en.png`
+- `leadget-preferences-en.png`
+- `leadget-content-plan-en.png`
