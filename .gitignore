@@ -6,3 +6,4 @@ playwright-report/
 *.log
 /sales/
 /.implementation-plan.md
+/assets/source-screenshots/
